@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Calender</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/color-calendar/dist/css/theme-basic.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/color-calendar/dist/css/theme-glass.css"
+        />
+        <style>
+            body {
+                background-size: cover;
+                background-position: center center;
+                background-attachment: fixed;
+            }
+            /* .calander-image {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            } */
+            .bottom-left {
+                position: absolute;
+                bottom: 8px;
+                left: 16px;
+            }
+            .item {
+                position: relative;
+                margin: 0.1em;
+            }
+            .item:before {
+                content: '';
+                z-index: -1;
+                left: -0.5em;
+                top: 0.1em;
+                border-width: 0.5em;
+                border-style: solid;
+                border-color: lightgreen;
+                position: absolute;
+                width: 100%;
+                border-left-color: transparent;
+                border-right-color: transparent;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="demo">
+            <div id="color-calendar" class="calander-image"></div>
+            <div id="event" class="bottom-left"></div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/color-calendar/dist/bundle.min.js"></script>
+        <script>
+            const myEvents = [
+                {
+                    id: 1,
+                    start: '2022-01-15T00:00:01',
+                    end: '2022-01-15T23:59:59',
+                    name: 'Happy new year',
+                    desc: 'Description 1',
+                },
+            ];
+            new Calendar({
+                id: '#color-calendar',
+                eventsData: myEvents,
+                calendarSize: 'small',
+                dropShadow: 'based on theme',
+                // layoutModifiers: 'month-align-left',
+                // theme: 'glass',
+                monthChanged: (currentDate, DateEvents) => {
+                    document.body.style.backgroundImage = getMonthImage(
+                        currentDate.getMonth()
+                    );
+                },
+                dateChanged: (currentDate, dateEvents) => {
+                    if (dateEvents.length) {
+                        let ul = document.createElement('ul');
+                        ul.setAttribute('id', 'proList');
+
+                        document.getElementById('event').appendChild(ul);
+                        dateEvents.forEach(renderProductList);
+
+                        function renderProductList(element, index, arr) {
+                            let li1 = document.createElement('li');
+                            let li2 = document.createElement('li');
+                            li1.setAttribute('class', 'item');
+                            li2.setAttribute('class', 'item');
+
+                            ul.appendChild(li1);
+                            ul.appendChild(li2);
+
+                            li1.innerHTML = li1.innerHTML + element.name;
+                            li2.innerHTML = li2.innerHTML + element.desc;
+                            document.body.style.backgroundImage = getEventImage(
+                                element.id
+                            );
+                        }
+                    } else {
+                        document.getElementById('event').innerHTML = '';
+                        document.body.style.backgroundImage = getMonthImage(
+                            currentDate.getMonth()
+                        );
+                    }
+                },
+            });
+            function getMonthImage(id) {
+                switch (id) {
+                    case 0:
+                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                    case 1:
+                        return 'url(pexels-cátia-matos-1072179.jpg)';
+                    case 2:
+                        return 'url(https://img.traveltriangle.com/blog/wp-content/uploads/2019/08/Puri-Jagannath-Yatra.jpg)';
+                    case 3:
+                        return 'url(https://i0.wp.com/www.opindia.com/wp-content/uploads/2020/06/pjimage-2-5.jpg)';
+                    case 4:
+                        return 'url(pexels-ananta-creation-6000936.jpg)';
+                    case 5:
+                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                    case 6:
+                        return 'url(pexels-cátia-matos-1072179.jpg)';
+                    case 7:
+                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                    case 8:
+                        return 'url(https://i0.wp.com/www.opindia.com/wp-content/uploads/2020/06/pjimage-2-5.jpg)';
+                    case 9:
+                        return 'url(pexels-cátia-matos-1072179.jpg)';
+                    case 10:
+                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                    case 11:
+                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                    default:
+                        return '';
+                }
+            }
+            function getEventImage(id) {
+                switch (id) {
+                    case 1:
+                        return 'url(pexels-cátia-matos-1072179.jpg)';
+                    default:
+                        return '';
+                }
+            }
+        </script>
+    </body>
+</html>

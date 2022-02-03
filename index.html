@@ -19,39 +19,84 @@
                 background-position: center center;
                 background-attachment: fixed;
             }
-            /* .calander-image {
+            .calander-image {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-            } */
+            }
             .bottom-left {
                 position: absolute;
                 bottom: 8px;
                 left: 16px;
             }
-            .item {
-                position: relative;
-                margin: 0.1em;
+            .sidenav {
+                height: 100%; /* 100% Full-height */
+                width: 0; /* 0 width - change this with JavaScript */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Stay on top */
+                top: 0;
+                background-color: #111; /* Black*/
+                overflow-x: hidden; /* Disable horizontal scroll */
+                padding-top: 60px; /* Place content 60px from the top */
+                transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
             }
-            .item:before {
-                content: '';
-                z-index: -1;
-                left: -0.5em;
-                top: 0.1em;
-                border-width: 0.5em;
-                border-style: solid;
-                border-color: lightgreen;
+
+            /* The navigation menu links */
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+            }
+
+            /* When you mouse over the navigation links, change their color */
+            .sidenav a:hover,
+            .offcanvas a:focus {
+                color: #f1f1f1;
+            }
+
+            /* Position and style the close button (top right corner) */
+            .sidenav .closebtn {
                 position: absolute;
-                width: 100%;
-                border-left-color: transparent;
-                border-right-color: transparent;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+            }
+
+            /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+            #main {
+                transition: margin-left 0.5s;
+                padding: 20px;
+            }
+            .sidenav {
+                right: 0;
+            }
+            /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+            @media screen and (max-height: 450px) {
+                .sidenav {
+                    padding-top: 15px;
+                }
+                .sidenav a {
+                    font-size: 18px;
+                }
+            }
+            .sidenav {
+                right: 0;
             }
         </style>
     </head>
     <body>
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+                >&times;</a
+            >
+        </div>
         <div id="demo">
             <div id="color-calendar" class="calander-image"></div>
-            <div id="event" class="bottom-left"></div>
+            <!-- <div id="event" class="bottom-left"></div> -->
         </div>
         <script src="https://cdn.jsdelivr.net/npm/color-calendar/dist/bundle.min.js"></script>
         <script>
@@ -61,7 +106,14 @@
                     start: '2022-01-15T00:00:01',
                     end: '2022-01-15T23:59:59',
                     name: 'Happy new year',
-                    desc: 'Description 1',
+                    desc: 'ରଥ ଯାତ୍ରା',
+                },
+                {
+                    id: 2,
+                    start: '2022-01-16T00:00:01',
+                    end: '2022-01-16T23:59:59',
+                    name: 'rath yatra',
+                    desc: 'ରଥ ଯାତ୍ରା',
                 },
             ];
             new Calendar({
@@ -81,7 +133,7 @@
                         let ul = document.createElement('ul');
                         ul.setAttribute('id', 'proList');
 
-                        document.getElementById('event').appendChild(ul);
+                        document.getElementById('mySidenav').appendChild(ul);
                         dateEvents.forEach(renderProductList);
 
                         function renderProductList(element, index, arr) {
@@ -96,10 +148,13 @@
                             li1.innerHTML = li1.innerHTML + element.name;
                             li2.innerHTML = li2.innerHTML + element.desc;
                             document.body.style.backgroundImage = getEventImage(
-                                element.id
+                                element.id,
+                                currentDate.getMonth()
                             );
+                            openNav();
                         }
                     } else {
+                        closeNav();
                         document.getElementById('event').innerHTML = '';
                         document.body.style.backgroundImage = getMonthImage(
                             currentDate.getMonth()
@@ -110,40 +165,48 @@
             function getMonthImage(id) {
                 switch (id) {
                     case 0:
-                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                        return 'url(images/pexels-anna-tarazevich-6027785.jpg)';
                     case 1:
-                        return 'url(pexels-cátia-matos-1072179.jpg)';
+                        return 'url(images/pexels-cátia-matos-1072179.jpg)';
                     case 2:
                         return 'url(https://img.traveltriangle.com/blog/wp-content/uploads/2019/08/Puri-Jagannath-Yatra.jpg)';
                     case 3:
                         return 'url(https://i0.wp.com/www.opindia.com/wp-content/uploads/2020/06/pjimage-2-5.jpg)';
                     case 4:
-                        return 'url(pexels-ananta-creation-6000936.jpg)';
+                        return 'url(images/pexels-ananta-creation-6000936.jpg)';
                     case 5:
-                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                        return 'url(images/pexels-anna-tarazevich-6027785.jpg)';
                     case 6:
-                        return 'url(pexels-cátia-matos-1072179.jpg)';
+                        return 'url(images/pexels-cátia-matos-1072179.jpg)';
                     case 7:
-                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                        return 'url(images/pexels-anna-tarazevich-6027785.jpg)';
                     case 8:
                         return 'url(https://i0.wp.com/www.opindia.com/wp-content/uploads/2020/06/pjimage-2-5.jpg)';
                     case 9:
-                        return 'url(pexels-cátia-matos-1072179.jpg)';
+                        return 'url(images/pexels-cátia-matos-1072179.jpg)';
                     case 10:
-                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                        return 'url(images/pexels-anna-tarazevich-6027785.jpg)';
                     case 11:
-                        return 'url(pexels-anna-tarazevich-6027785.jpg)';
+                        return 'url(images/pexels-anna-tarazevich-6027785.jpg)';
                     default:
                         return '';
                 }
             }
-            function getEventImage(id) {
+            function getEventImage(id, month) {
                 switch (id) {
                     case 1:
-                        return 'url(pexels-cátia-matos-1072179.jpg)';
+                        return 'url(images/pexels-cátia-matos-1072179.jpg)';
+                    case 2:
+                        return 'url(https://i0.wp.com/www.opindia.com/wp-content/uploads/2020/06/pjimage-2-5.jpg)';
                     default:
-                        return '';
+                        return getMonthImage(month);
                 }
+            }
+            function openNav() {
+                document.getElementById('mySidenav').style.width = '250px';
+            }
+            function closeNav() {
+                document.getElementById('mySidenav').style.width = '0';
             }
         </script>
     </body>
